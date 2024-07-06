@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
@@ -134,17 +133,17 @@ func deleteAlbumByID(c *gin.Context) {
 
 func main() {
 	config := mysql.Config{
-		User:                 os.Getenv("DBUSER"),
-		Passwd:               os.Getenv("DBPASS"),
+		User:                 "user",
+		Passwd:               "password",
 		Net:                  "tcp",
-		Addr:                 "127.0.0.1:3306",
-		DBName:               "myapp",
+		Addr:                 "db:5432",
+		DBName:               "sample",
 		AllowNativePasswords: true,
 	}
-
 	var err error
 	db, err = sql.Open("mysql", config.FormatDSN())
 	if err != nil {
+		fmt.Println(config)
 		log.Fatal(err)
 	}
 
