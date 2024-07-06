@@ -1,47 +1,49 @@
-version: "3"
+version: "3.8"
 services:
-  # db:
-  #   image: mysql:8.0
-  #   restart: always
-  #   environment:
-  #       MYSQL_USER: user
-  #       MYSQL_PASSWORD: password
-  #       MYSQL_ROOT_PASSWORD: password
-  #       MYSQL_DATABASE: sample
-  #   ports:
-  #     - 3306:3306
-  #   volumes:
-  #     - db-data:/var/lib/mysql
-  #     - ./sql:/docker-entrypoint-initdb.d
   db:
-    image: postgres
+    image: mysql:8.0
     restart: always
-    ports:
-      - 5432:5432
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: sample
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: sample
+    ports:
+      - 3306:3306
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+  # db:
+  #   image: postgres
+  #   restart: always
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: sample
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
   go:
     image: web-service-gin_go:latest
     volumes:
-      - ".:/build"
+      - ".:/app"
     tty: true
+    ports:
+      - 8080:8080
     depends_on:
       - db
-  prd:
-    image: web-service-gin_prd:latest
+  # prd:
+  #   image: web-service-gin_prd:latest
     # environment:
     #    MYSQL_USER: ${MYSQL_USER}
     #    MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     #    MYSQL_DATABASE: ${MYSQL_DATABASE}
     #    MYSQL_HOST: db
-    ports:
-      - 8080:8080
-    depends_on:
-      - db
-    command: /bin/sh -c "/app/main"
+    # ports:
+    #   - 8080:8080
+    # depends_on:
+    #   - db
+    # command: /bin/sh -c "/app/main"
 volumes:
   db-data:

@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
+	// _ "github.com/lib/pq"
 )
 
 var db *sql.DB
@@ -136,14 +137,14 @@ func main() {
 		User:                 "user",
 		Passwd:               "password",
 		Net:                  "tcp",
-		Addr:                 "db:5432",
+		Addr:                 "db:3306",
 		DBName:               "sample",
 		AllowNativePasswords: true,
 	}
 	var err error
 	db, err = sql.Open("mysql", config.FormatDSN())
+	// db, err = sql.Open("postgres", "postgres://user:password@db:5432/sample?sslmode=disable")
 	if err != nil {
-		fmt.Println(config)
 		log.Fatal(err)
 	}
 
@@ -160,5 +161,5 @@ func main() {
 	router.PATCH("/albums/:id", updateAlbumByID)
 	router.DELETE("/albums/:id", deleteAlbumByID)
 
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
 }
