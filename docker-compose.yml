@@ -13,6 +13,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u$$MYSQL_USER -p$$MYSQL_PASSWORD
   go:
     image: web-service-gin_go:latest
     volumes:
@@ -21,6 +23,7 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - db
+      db:
+         condition: service_healthy
 volumes:
   db-data:
