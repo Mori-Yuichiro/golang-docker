@@ -8,7 +8,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
-	// _ "github.com/lib/pq"
 )
 
 var db *sql.DB
