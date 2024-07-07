@@ -143,7 +143,6 @@ func main() {
 	}
 	var err error
 	db, err = sql.Open("mysql", config.FormatDSN())
-	// db, err = sql.Open("postgres", "postgres://user:password@db:5432/sample?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
